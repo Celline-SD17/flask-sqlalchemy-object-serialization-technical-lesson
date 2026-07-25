@@ -14,9 +14,15 @@ class Album():
 # schema 
 
 class AlbumSchema(Schema):
-    title = fields.String()
-    artist = fields.String()
-    num_sold = fields.Int()
+    title = fields.String(required=True)
+    artist = fields.String(required=True)
+    num_sold = fields.Int(required=True)
+    big_hit = fields.Boolean(dump_only=True)
+
+    @pre_dump()
+    def get_data(self,data, **kwargs):
+        data.big_hit = data.num_sold > 1000000
+        return data
     
     
 # create model and schema instances
